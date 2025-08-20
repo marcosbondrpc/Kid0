@@ -1,26 +1,77 @@
 {
   "libraries": {
-    "fs": {
+    "child_process": {
+      "id": "child_process",
+      "name": "child_process",
+      "slug": "child_process",
+      "paths": ".0kid/docs/child_process/",
+      "lastUpdated": "2025-08-20T21:50:17.591Z",
       "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": []
+    },
+    "fs": {
+      "id": "fs",
+      "name": "fs",
       "slug": "fs",
-      "path": ".0kid/docs/fs/",
-      "files": ["OVERVIEW.md","USAGE.md","PITFALLS.md","LINKS.md"],
-      "links": ["https://nodejs.org/api/fs.html","https://www.npmjs.com/","https://github.com/nodejs/node"]
+      "paths": ".0kid/docs/fs/",
+      "lastUpdated": "2025-08-20T21:50:17.592Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": [
+        "https://nodejs.org/api/fs.html",
+        "https://www.npmjs.com/",
+        "https://github.com/nodejs/node"
+      ]
     },
     "path": {
-      "version": "unknown",
+      "id": "path",
+      "name": "path",
       "slug": "path",
-      "path": ".0kid/docs/path/",
-      "files": ["OVERVIEW.md","USAGE.md","PITFALLS.md","LINKS.md"],
-      "links": ["https://nodejs.org/api/path.html","https://www.npmjs.com/","https://github.com/nodejs/node"]
+      "paths": ".0kid/docs/path/",
+      "lastUpdated": "2025-08-20T21:50:17.592Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": [
+        "https://nodejs.org/api/path.html",
+        "https://www.npmjs.com/",
+        "https://github.com/nodejs/node"
+      ]
     },
     "url": {
-      "version": "unknown",
+      "id": "url",
+      "name": "url",
       "slug": "url",
-      "path": ".0kid/docs/url/",
-      "files": ["OVERVIEW.md","USAGE.md","PITFALLS.md","LINKS.md"],
-      "links": ["https://nodejs.org/api/url.html","https://www.npmjs.com/","https://github.com/nodejs/node"]
+      "paths": ".0kid/docs/url/",
+      "lastUpdated": "2025-08-20T21:50:17.592Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": [
+        "https://nodejs.org/api/url.html",
+        "https://www.npmjs.com/",
+        "https://github.com/nodejs/node"
+      ]
     }
   },
-  "lastUpdated": "2025-08-20T21:10:15Z"
+  "lastUpdated": "2025-08-20T21:50:17.592Z"
 }
