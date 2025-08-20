@@ -1,0 +1,3 @@
+- Official docs: https://nodejs.org/api/url.html
+- Registry: https://www.npmjs.com/ (Node core module; no separate package)
+- Repository: https://github.com/nodejs/node
