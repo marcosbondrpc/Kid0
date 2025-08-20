@@ -132,4 +132,3 @@ customModes:
       - Verify zero placeholders; spec-count == node-count; commands runnable.
       - Emit onboarding report; log RetrofitCompletion if first-time retrofit.
     groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
----
