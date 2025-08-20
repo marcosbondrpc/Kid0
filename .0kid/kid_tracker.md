@@ -10,9 +10,6 @@
 
 | Status | WorkGroupID | Node ID | Label | Dependencies | Logical Grouping | Spec Link | Classification | Notes / Issues |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| ⚪️ `[TODO]` | | `[ExampleNodeID]` | `[Example Node Label]` | `[DepNodeID1]` | `[Example Group]` | `[Spec](.0kid/specs/ExampleNodeID.md)` | `[Standard]` | |
-| | | | | | | | | |
-| | | | | | | | | |
 
 ---
 ### Legend for Status:

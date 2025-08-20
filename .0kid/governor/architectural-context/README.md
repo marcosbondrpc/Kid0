@@ -58,7 +58,7 @@ This document serves as the single source of truth for our project's architectur
 ## Integration Points
 
 ### Internal Systems
-- NodeErr Loop System (v1.9)
+- Kid Loop System
 - Governor Framework (v1.0)
 - Pattern Learning Engine
 - Decision Engine (85% confidence threshold)

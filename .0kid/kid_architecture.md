@@ -19,31 +19,7 @@ graph TD
         L_ExtAPI{{External API}}
     end
 
-    %% =================================================================
-    %%  High-Level Application Flow
-    %%  This is a placeholder. Replace with your project's actual architecture.
-    %% =================================================================
-    User((User)) --> UI_LoginPage[/Login Page/]
-
-    subgraph "Authentication Feature"
-        direction TB
-        UI_LoginPage -- Credentials --> API_Auth[API: Authenticate User]
-        API_Auth --> DB_Users[(User Database)]
-        API_Auth --> Auth_Decision{Is Valid?}
-    end
-
-    Auth_Decision -- Yes --> UI_Dashboard[/User Dashboard/]
-    Auth_Decision -- No --> UI_LoginPage
-
-    subgraph "Dashboard Feature"
-        direction TB
-        UI_Dashboard -- Request Data --> API_GetData[API: Get User Data]
-        API_GetData --> SVC_DataAggregator[Service: Aggregate Data]
-        SVC_DataAggregator --> DB_Products[(Product DB)]
-        SVC_DataAggregator --> DB_Orders[(Order DB)]
-        SVC_DataAggregator -- Aggregated Data --> API_GetData
-        API_GetData -- Formatted Data --> UI_Dashboard
-    end
+    %% Example section removed. Project-specific diagrams are generated per project.
 ```
 
 ---

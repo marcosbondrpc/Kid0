@@ -40,7 +40,7 @@ end
 │   ├── LOAD: .0kid/governor/architectural-context/*
 │   └── ACTIVATE: Rule validation engine
 ├── INIT: KID Methodology
-│   ├── LOAD: .0kid/noderr_loop.md
+│   ├── LOAD: .0kid/kid_loop.md
 │   ├── INDEX: .0kid/patterns/*
 │   └── START: Pattern learning engine
 └── SYNC: Fusion Layer

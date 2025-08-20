@@ -1,0 +1,53 @@
+version: 1
+naming:
+  canonical_brand: Kid
+  legacy_aliases: [Kid, Kid]
+autonomy:
+  enabled: true
+  require_approvals:
+    change_set_proposal: false
+    spec_approval: false
+    plan_review: false
+gates:
+  pre_spec:
+    rulesets:
+      - path: .0kid/governor/rules/master-rules/
+      - path: .0kid/governor/rules/project-rules/
+    fail_policy: "block"
+  pre_implement:
+    rulesets:
+      - path: .0kid/governor/rules/
+    fail_policy: "block"
+  post_verify:
+    pattern_promotion: true
+    promotion_threshold:
+      success_count: 10
+      confidence: 0.95
+paths:
+  docs:
+    project: .0kid/kid_project.md
+    architecture: .0kid/kid_architecture.md
+    loop: .0kid/kid_loop.md
+    log: .0kid/kid_log.md
+    tracker: .0kid/kid_tracker.md
+  patterns:
+    success: .0kid/patterns/success/
+    antipatterns: .0kid/patterns/antipatterns/
+  rules:
+    root: .0kid/governor/rules/
+    project: .0kid/governor/rules/project-rules/
+  bridge: .0kid/methodology-bridge.json
+  agents: .0kid/unified-agents.yaml
+bootstrap:
+  create_if_missing:
+    - .0kid/kid_project.md
+    - .0kid/kid_architecture.md
+    - .0kid/kid_tracker.md
+    - .0kid/kid_log.md
+    - .0kid/kid_loop.md
+    - .0kid/patterns/success/
+    - .0kid/patterns/antipatterns/
+    - .0kid/governor/rules/project-rules/
+commit_policy:
+  enabled: true
+  conventions: conventional_commits
