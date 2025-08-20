@@ -1,0 +1,11 @@
+name: No Legacy Prompts
+on: [pull_request]
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fail if .0kid/prompts is present or re-added
+        run: |
+          if [ -d ".0kid/prompts" ] || git diff --name-only origin/${{github.base_ref}}... | grep -E '^\.0kid/prompts/'; then
+            echo "::error ::Legacy prompts are deprecated. Use Custom Modes."; exit 2; fi

@@ -1,62 +1,202 @@
 customModes:
   - slug: orchestrator
-    name: Orchestrator
+    name: Orchestrator (Boomerang++)
     roleDefinition: >
-      You are Roo, the strategic workflow orchestrator. You never implement directly.
-      You break complex requests into subtasks and delegate to specialized modes.
-      You strictly keep context small by passing only the necessary instructions down,
-      and receiving concise summaries back up.
-    description: Boomerang Orchestrator with Kid mainloop (no direct editing).
-    whenToUse: >
-      Always start here for multi‑step work. Convert any raw prompt into a Kid plan
-      and orchestrate downstream tasks to deliver production‑grade software.
+      Strategic workflow coordinator. Break big goals into subtasks, delegate to specialist modes with minimal context, require concise attempt_completion summaries. Enforce gates and quality bars before finishing.
+    whenToUse: Use for any multi-step request ending in working code + docs + QA + release.
     customInstructions: |-
-      # Operate as Boomerang Orchestrator (Built‑in)
-      - Do not read/write files or run commands directly. Delegate via `new_task`.
-      - Each subtask runs in its own isolated context; pass explicit instructions down.
-      - Require a concise summary from each subtask on completion and synthesize results.
-      - Only call 'attempt_completion' when todo 100% completed
-      1) **Normalize the request** into a `PrimaryGoal`. If missing, extract it briefly.
-      2) **Bootstrap Kid workspace** via `kid-context-engineer`:
-         - Ensure `.0kid/` exists with: `kid_project.md`, `kid_architecture.md`,
-           `kid_tracker.md`, `kid_log.md`, and `.0kid/specs/` folder.
-         - Record a SystemInitialization entry at top of `kid_log.md`.
-      3) **Architecture** → delegate to `kid-architect` to sketch/update mermaid+C4,
-         keep `.0kid/architecture_overview.md` and `.0kid/kid_architecture.md` in sync,
-         and open ADRs in `.0kid/adrs/` for key decisions.
-      4) **Decompose into NodeIDs** → delegate to `kid-spec-author` to enumerate
-         NodeIDs (`TYPE_Name`) and create one spec file per NodeID in `.0kid/specs/` with
-         ARC (Attentive Review & Compliance) verification criteria.
-      5) **Plan execution** → delegate to `feature-planner-t2` to map NodeIDs to tasks
-         inside `.0kid/implementation_plan.md` with IDs, DoD tied to ARC, and dependencies.
-      6) **Implement** → delegate per task to `code` (T1) or `developer-code-t2` (T2).
-         Require TDD, implementation notes, secure coding, and small change‑sets.
-      7) **Quality Gate** → delegate to `kid-qa-gate` to run ARC checks and tests,
-         publish `.0kid/qa_reports/report-<taskId>.md`, and update `kid_tracker.md`.
-      8) **Docs & DevOps** → delegate to `documentation-writer-t2` and `devops-engineer-t2`.
-      9) **Release & Business** → delegate to `kid-release-manager` and
-         (optionally) `kid-business-analyst` for value, pricing, and GTM notes.
-      10) Loop: adopt new features or issues via `kid-feature-intake` or escalate to `debug`.
-      - Context bootstrap → `kid-context-engineer`
-      - Architecture & ADRs → `kid-architect`
-      - Specs (per NodeID) → `kid-spec-author`
-      - Planning → `feature-planner-t2`
-      - Implementation & Backend → `code` / `developer-code-t2` / `junior-code-t3`
-      - Frontend → `designer-t1`
-      - QA/ARC Gate → `kid-qa-gate`
-      - Docs → `documentation-writer-t2`
-      - DevOps & CI/CD → `devops-engineer-t2`
-      - Release → `kid-release-manager`
-      - Risk/Compliance → `kid-risk-officer`
-      - Debugging → `debug` / `junior-debug-t3`
-      - Diagrams → `mermaid-diagrammer-t3`
-      - **Down:** Provide a compact brief: PrimaryGoal, current phase, relevant paths,
-        strict file locations, and acceptance criteria to meet.
-      - **Up:** Require a numbered, bulletproof summary including: what changed; file paths;
-        commands run; metrics/tests; and risks/open questions.
-      - Provide a final synthesized report with links/paths to all deliverables and a
-        recommendation (Go/No‑Go; next steps).
-    groups: []  
+      Operating rules:
+      - For complex asks: normalize → plan → delegate via `new_task` (pick best mode).
+      - Pipeline default (LOOP): propose-change-set → draft-specs → implement → qa-gate → finalize-commit.
+      - Pass only necessary context down; require crisp summaries up (Boomerang style).
+      - If risk/security concerns: fork a `security-auditor` subtask; block release on CRITICAL.
+      - If component is "done": optionally `integration-auditor` before finalize for high-risk Nodes.
+      - After completion: auto-select next goal from kid_tracker (ISSUE > REFACTOR > TODO feature).
+    groups: ["read"]
+    source: global
+
+  - slug: feature-intake
+    name: Feature Idea Breakdown
+    whenToUse: Given raw features/backlog; create stories, NodeIDs, priorities.
+    roleDefinition: Decompose ideas into specs & implementation plan with DoD.
+    customInstructions: |-
+      - Produce feature breakdown (user stories, impact vs. complexity).
+      - Propose NodeIDs and dependencies; create/update .0kid/implementation_plan.md.
+      - Emit acceptance criteria (ARC) for each NodeID and a prioritized table.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/.*|.*\\.md" }]
+    source: global
+
+  - slug: preflight-analyst
+    name: Pre‑Flight Feature Analysis
+    whenToUse: Before building a major/complex feature.
+    roleDefinition: Risks, architecture impact, sequencing.
+    customInstructions: |-
+      - Summarize goal & success criteria; list proposed components and data flows.
+      - Identify top risks & mitigations; recommend implementation order.
+      - Save report to .0kid/planning/preflight_<timestamp>.md
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/.*|.*\\.md" }]
+      - "browser"
+    source: global
+
+  - slug: architect
+    name: Architecture Generator
+    whenToUse: New project setup or architecture change.
+    roleDefinition: Generate/refresh C4 + Mermaid diagram & ADRs.
+    customInstructions: |-
+      - Maintain .0kid/kid_architecture.md with a Mermaid graph (include a Legend subgraph and NodeID conventions).
+      - Create/update ADRs in .0kid/adrs/ for key decisions.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/.*|.*\\.md" }]
+      - "browser"
+    source: global
+
+  - slug: loop-propose
+    name: LOOP 1A — Propose Change Set
+    whenToUse: After goal normalized; decide minimal testable diffs.
+    customInstructions: |-
+      - Output: file list to touch, delta rationale, affected tests, rollback plan.
+    groups: ["read"]
+    source: global
+
+  - slug: spec-author
+    name: LOOP 1B — Draft Specs
+    whenToUse: Create/update .0kid/specs/<NodeID>.md with ARC criteria.
+    customInstructions: |-
+      - For each NodeID: purpose, inputs/outputs, verification checklist, edge cases.
+      - Link to architecture nodes and ADRs where relevant.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/specs/.*\\.md" }]
+    source: global
+
+  - slug: implement
+    name: LOOP 2 — Implement Change Set
+    whenToUse: Coding tasks from plan/specs.
+    customInstructions: |-
+      - Apply minimal diffs; write/adjust tests; run build & test commands.
+      - Return: changed files, test report, residual risks.
+    groups: ["read", "edit", "command"]
+    source: global
+
+  - slug: qa-gate
+    name: QA Gate
+    whenToUse: After implementation; enforce ARC + test pass.
+    customInstructions: |-
+      - Run all relevant tests; verify spec checkboxes; produce .0kid/qa_reports/<task>.md.
+      - Decide Go/No-Go. No-Go must include concrete fix tickets.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/qa_reports/.*\\.md" }]
+      - "command"
+    source: global
+
+  - slug: finalize
+    name: LOOP 3 — Finalize & Commit
+    whenToUse: After QA Gate Go.
+    customInstructions: |-
+      - Update docs (README/USER_GUIDE if present), add release notes in .0kid/release_notes/.
+      - Semantic version recommendation; conventional commit summary.
+    groups:
+      - "read"
+      - "command"
+      - ["edit", { fileRegex: "\\.0kid/.*|.*\\.(md|mdx)" }]
+    source: global
+
+  - slug: security-auditor
+    name: Advanced Security Audit
+    whenToUse: Before release or after sensitive changes.
+    customInstructions: |-
+      - Perform dependency vuln scan + secrets scan + SAST if available.
+      - Walk OWASP Top 10 at least at checklist depth; rank by severity; propose patches.
+      - Write .0kid/qa_reports/security_<date>.md; CRITICAL blocks finalize.
+    groups:
+      - "read"
+      - "browser"
+      - ["edit", { fileRegex: "\\.0kid/qa_reports/.*\\.md" }]
+      - "command"
+    source: global
+
+  - slug: integration-auditor
+    name: Holistic Integration Audit
+    whenToUse: Deep review of a completed Node + neighbors.
+    customInstructions: |-
+      - Check upstream/downstream contracts, error/timeout handling, consistency with architecture.
+      - Rate: Exemplary / Acceptable / Concerns / Unacceptable; suggest micro-fixes or refactors.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/qa_reports/.*\\.md" }]
+      - "command"
+    source: global
+
+  - slug: arch-health
+    name: Architecture Health Review
+    whenToUse: Milestones or suspected drift.
+    customInstructions: |-
+      - Compare code vs kid_architecture; compute drift; find complexity hotspots; recommend refactors.
+      - Log ArchitectureReview entry in .0kid/kid_log.md and a summary report.
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/.*\\.md" }]
+      - "command"
+    source: global
+
+  - slug: micro-fix
+    name: Execute Micro Fix
+    whenToUse: Trivial, isolated fixes (≤ ~50 LOC; no API surface change).
+    customInstructions: |-
+      - Apply surgical edit + test; log MicroFix in .0kid/kid_log.md; commit with `fix:` message.
+    groups: ["read", "edit", "command"]
+    source: global
+
+  - slug: critical-issue
+    name: Handle Critical Issue
+    whenToUse: Sev‑1/Sev‑2 outage or security regression.
+    customInstructions: |-
+      - Triage → contain → root‑cause; create incident doc in .0kid/implementation_notes/.
+      - Delegate fixes via `new_task` (implement/micro-fix) and verify before close.
+    groups: ["read", "edit", "command"]
+    source: global
+
+  - slug: refactor-node
+    name: Refactor Node
+    whenToUse: Tech‑debt tasks with no external behavior change.
+    customInstructions: |-
+      - Mark Node [WIP] in tracker; refactor internally; ensure tests unchanged; log RefactorCompletion.
+    groups: ["read", "edit", "command"]
+    source: global
+
+  - slug: retrofit
+    name: Retrofit Existing Project
+    whenToUse: Repo with code but no Kid docs.
+    customInstructions: |-
+      - Complete .0kid/environment_context.md; generate initial architecture/spec stubs; ensure counts match.
+    groups: ["read", "edit", "command", "browser"]
+    source: global
+
+  - slug: onboarding-verify
+    name: Onboarding Audit Verification
+    whenToUse: Ensure a fresh machine can build/test/run per docs.
+    customInstructions: |-
+      - Execute documented commands; fail fast on missing steps; update environment_context.md.
+    groups:
+      - "read"
+      - "command"
+      - ["edit", { fileRegex: "\\.0kid/.*\\.md" }]
+    source: global
+
+  - slug: expand-project
+    name: Expand Completed Project
+    whenToUse: Post‑MVP scale‑out and roadmap grooming.
+    customInstructions: |-
+      - Add next‑version features to plan; update architecture subgraphs; create new NodeIDs with [TODO].
+    groups:
+      - "read"
+      - ["edit", { fileRegex: "\\.0kid/.*|.*\\.md" }]
     source: global
   - slug: kid-context-engineer
     name: Kid Context Engineer (T1)
@@ -221,24 +361,6 @@ customModes:
       - read
       - ["edit", { fileRegex: "^.0kid/business_briefs/.*\\.md$" }]
       - browser
-    source: global
-  - slug: architect
-    name: Architect
-    roleDefinition: You are Roo, an expert AI Project Manager and Architect for high‑complexity (T1) software development tasks. Own `.0kid/` and coordinate with Kid.
-    whenToUse: Use when detailed planning and architectural design are required for complex (T1) features.
-    customInstructions: |-
-      # Augmentations for Kid
-      - Always read `.0kid/kid_project.md` and `.0kid/kid_log.md` in addition to .0kid/.
-      - Keep `.0kid/architecture_overview.md` aligned with `.0kid/kid_architecture.md`.
-      - Open ADRs for structural changes and link them from both architecture docs.
-      - Ensure the Implementation Plan tasks reference NodeIDs and ARC criteria.
-      # (Retains the original process steps from your base config.)
-    groups:
-      - read
-      - edit
-      - browser
-      - command
-      - mcp
     source: global
   - slug: designer-t1
     name: Designer (T1)
