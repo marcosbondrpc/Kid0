@@ -205,3 +205,55 @@ PY
 ## Library Docs Index
 - Index: [.0kid/docs/index.json](.0kid/docs/index.json)
 - Harvester mode: `dependency-docs-harvester`
+## Audit &amp; Orchestration
+
+### Overview
+- .0kid: Lightweight, repo-local operating system for orchestration, documentation, gates, and audit trails. It standardizes planning (specs, trackers), guardrails (rules, gates), and automation bridges so work flows through a predictable loop referenced in [README.md](README.md:27).
+
+### Directory Map
+- Root: [.0kid/](.0kid)
+- Docs index: [.0kid/docs/](.0kid/docs)
+- Rules root: [.0kid/governor/rules/](.0kid/governor/rules)
+- Project rules: [.0kid/governor/rules/project-rules/](.0kid/governor/rules/project-rules)
+- Success patterns: [.0kid/patterns/success/](.0kid/patterns/success)
+
+### Orchestrator Config Keys (anchors)
+- [yaml.version()](.0kid/orchestration.yaml:1)
+- [yaml.naming.canonical_brand()](.0kid/orchestration.yaml:3)
+- [yaml.autonomy.enabled()](.0kid/orchestration.yaml:6)
+- [yaml.gates.pre_spec.rulesets()](.0kid/orchestration.yaml:13)
+- [yaml.gates.pre_implement.rulesets()](.0kid/orchestration.yaml:18)
+- [yaml.gates.post_verify.promotion_threshold()](.0kid/orchestration.yaml:23)
+- [yaml.paths.bridge()](.0kid/orchestration.yaml:39)
+- [yaml.paths.agents()](.0kid/orchestration.yaml:40)
+- [yaml.bootstrap.create_if_missing()](.0kid/orchestration.yaml:42)
+- [yaml.commit_policy.conventions()](.0kid/orchestration.yaml:53)
+
+### custom_modes.yaml Policy Summary
+- Orchestrator-like modes: groups ["read"] only (see [customModes root](custom_modes.yaml:1); e.g., orchestrator groups at [custom_modes.yaml](custom_modes.yaml:18)).
+- Docs/QA modes: groups ["edit",{fileRegex:"\.md$"}] + "read" (examples at [custom_modes.yaml](custom_modes.yaml:29), [custom_modes.yaml](custom_modes.yaml:38), [custom_modes.yaml](custom_modes.yaml:66), [custom_modes.yaml](custom_modes.yaml:95)).
+- Alias slugs /^nodeer-/: groups ["read"]; names start with "Alias: " (see [custom_modes.yaml](custom_modes.yaml:291)–[custom_modes.yaml](custom_modes.yaml:314)).
+- Parity mapping: [.roomodes](.roomodes:1) mirrors [custom_modes.yaml](custom_modes.yaml:1).
+
+### Changes Applied in This Audit
+- Created READMEs:
+  - [.0kid/governor/rules/project-rules/README.md](.0kid/governor/rules/project-rules/README.md)
+  - [.0kid/patterns/success/README.md](.0kid/patterns/success/README.md)
+- Alias fix: updated alias entry at [`nodeer-developer-code-t2`](custom_modes.yaml:298) to follow nodeer-* alias policy (name "Alias: …", groups ["read"]).
+- Parity refresh: synced [.roomodes](.roomodes:1) to mirror [custom_modes.yaml](custom_modes.yaml:1).
+
+### How to Verify
+- Run: `node scripts/check-parity.mjs` ([scripts/check-parity.mjs](scripts/check-parity.mjs:1))
+- Run: `node scripts/qa-composite.mjs` ([scripts/qa-composite.mjs](scripts/qa-composite.mjs:1))
+- Expected: exit code 0 and no parity drift; QA report written to [.0kid/qa_reports/report-libs.md](.0kid/qa_reports/README.md).
+
+### SOTA Guardrails
+- Safety vs autonomy: Autonomy enabled via [yaml.autonomy.enabled()](.0kid/orchestration.yaml:6); blocking gates via [yaml.gates.*](.0kid/orchestration.yaml:11) enforce pre-spec and pre-implement policy before changes.
+- Scope locks: Rule paths constrain evaluation scope (see [yaml.gates.pre_spec.rulesets()](.0kid/orchestration.yaml:13), [yaml.gates.pre_implement.rulesets()](.0kid/orchestration.yaml:18)); commit conventions enforced by [yaml.commit_policy.conventions()](.0kid/orchestration.yaml:53).
+- Dry-run/preview: CI and scripts provide non-destructive checks; parity script reports differences without modifying files ([scripts/check-parity.mjs](scripts/check-parity.mjs:1)); QA composite runs check-first then applies updates when needed ([scripts/qa-composite.mjs](scripts/qa-composite.mjs:1)).
+- Orchestration loop: This section complements the loop described in [README.md](README.md:34) (orchestrator → propose → spec → implement → QA → finalize).
+
+### Changelog (2025-08-21)
+- docs(rules,patterns): add READMEs under project rules and success patterns.
+- chore(modes): align alias [`nodeer-developer-code-t2`](custom_modes.yaml:298) with nodeer-* policy.
+- chore(parity): ensure [.roomodes](.roomodes:1) mirrors [custom_modes.yaml](custom_modes.yaml:1).

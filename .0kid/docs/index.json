@@ -1,4 +1,65 @@
 {
-  "libraries": {},
-  "lastUpdated": "2025-08-20T00:00:00Z"
+  "libraries": {
+    "child_process": {
+      "id": "child_process",
+      "name": "child_process",
+      "slug": "child_process",
+      "paths": ".0kid/docs/child_process/",
+      "lastUpdated": "2025-08-21T01:01:30.419Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": []
+    },
+    "fs": {
+      "id": "fs",
+      "name": "fs",
+      "slug": "fs",
+      "paths": ".0kid/docs/fs/",
+      "lastUpdated": "2025-08-21T01:01:30.419Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": []
+    },
+    "path": {
+      "id": "path",
+      "name": "path",
+      "slug": "path",
+      "paths": ".0kid/docs/path/",
+      "lastUpdated": "2025-08-21T01:01:30.419Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": []
+    },
+    "url": {
+      "id": "url",
+      "name": "url",
+      "slug": "url",
+      "paths": ".0kid/docs/url/",
+      "lastUpdated": "2025-08-21T01:01:30.419Z",
+      "version": "unknown",
+      "files": [
+        "OVERVIEW.md",
+        "USAGE.md",
+        "PITFALLS.md",
+        "LINKS.md"
+      ],
+      "links": []
+    }
+  },
+  "lastUpdated": "2025-08-21T01:01:30.419Z"
 }

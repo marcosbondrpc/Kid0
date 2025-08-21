@@ -295,7 +295,7 @@ customModes:
     customInstructions: "This is an alias. Use kid-spec-author mode instead."
     groups: [read]
 
-  - slug: developer-code-t2
+  - slug: nodeer-developer-code-t2
     name: "Alias: developer-code-t1"
     description: "Redirects to developer-code-t1 for T2-level coding tasks."
     customInstructions: "This is an alias. Use developer-code-t1 mode for T2 implementation work."
