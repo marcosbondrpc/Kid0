@@ -74,6 +74,41 @@ Unified “Kid” naming across docs and configs, bootstrap via [.0kid/orchestra
 - debug: Deep root‑cause analysis and fix path.
 - dependency-docs-harvester: Curate per‑library docs into `.0kid/docs`.
 
+## Orchestrator Macros
+
+### Work Session Management
+```bash
+# Update todo list and start focused work session
+update_todo_list "Work Session"
+```
+
+### Context Engineering
+```bash
+# Initialize or repair Kid workspace with context logging
+<new_task>
+<mode>kid-context-engineer</mode>
+<message>Initialize .0kid/ workspace structure and log current context</message>
+</new_task>
+```
+
+### Documentation Harvesting
+```bash
+# Curate library documentation into structured format
+<new_task>
+<mode>dependency-docs-harvester</mode>
+<message>Harvest and organize library documentation into .0kid/docs/</message>
+</new_task>
+```
+
+### Preflight Analysis
+```bash
+# Risk assessment and impact analysis before implementation
+<new_task>
+<mode>preflight-analysis-t2</mode>
+<message>Analyze proposed changes for risk vectors and provide mitigation strategies</message>
+</new_task>
+```
+
 ### CI Guardrail
 - What it does: Blocks PRs that add or resurrect [.0kid/prompts](.0kid/prompts).
 - How it works: The job in [.github/workflows/no-legacy-prompts.yml](.github/workflows/no-legacy-prompts.yml) fails when the `.0kid/prompts` directory exists or appears in the PR diff.

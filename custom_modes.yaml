@@ -132,4 +132,184 @@ customModes:
       - Verify zero placeholders; spec-count == node-count; commands runnable.
       - Emit onboarding report; log RetrofitCompletion if first-time retrofit.
     groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  # ND Prompts → First-Class Modes (T2/T3 Implementation)
+  - slug: security-auditor-t2
+    name: Security Auditor (T2)
+    description: Focused security analysis with OWASP mapping and remediation plans.
+    customInstructions: |-
+      - Scan dependencies, SAST, secrets detection; map findings to OWASP Top 10.
+      - Generate .0kid/qa_reports/security_audit_<timestamp>.md with severity ratings.
+      - Block release on CRITICAL findings; provide actionable remediation steps.
+    groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: architecture-generator-t2
+    name: Architecture Generator (T2)
+    description: Generate C4 diagrams and architecture documentation.
+    customInstructions: |-
+      - Create/update .0kid/kid_architecture.md with comprehensive Mermaid C4 diagrams.
+      - Include Legend subgraph with NodeID conventions (UI_*, API_*, DB_*, SVC_*).
+      - Generate ADRs under .0kid/adrs/ for significant architectural decisions.
+    groups: [["edit", { fileRegex: "\\.md$" }], read]
+
+  - slug: architecture-health-review-t2
+    name: Architecture Health Review (T2)
+    description: Analyze architecture drift and recommend refactoring strategies.
+    customInstructions: |-
+      - Compare current architecture diagram vs actual code structure.
+      - Calculate drift percentage; identify hotspots and complexity metrics.
+      - Generate .0kid/qa_reports/arch_health_<timestamp>.md with refactor recommendations.
+    groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: micro-fix-t3
+    name: Micro Fix (T3)
+    description: Apply surgical fixes to isolated issues with minimal scope.
+    customInstructions: |-
+      - Handle single-file changes <20 LOC; no interface modifications.
+      - Include targeted unit test; verify existing tests remain green.
+      - Document fix rationale in commit message.
+    groups: [edit, command, read]
+
+  - slug: scaleout-planner-t2
+    name: Scale-out Planner (T2)
+    description: Plan project expansion and roadmap grooming for growth phases.
+    customInstructions: |-
+      - Analyze current capacity vs growth projections.
+      - Generate .0kid/implementation_plan.md with phased scaling approach.
+      - Include dependency mapping and resource allocation recommendations.
+    groups: [["edit", { fileRegex: "\\.md$" }], read]
+
+  - slug: feature-idea-breakdown-t2
+    name: Feature Idea Breakdown (T2)
+    description: Convert raw feature ideas into structured stories with NodeIDs.
+    customInstructions: |-
+      - Transform feature requests into .0kid/specs/<NodeID>.md format.
+      - Assign priorities, effort estimates, and dependency chains.
+      - Update .0kid/kid_tracker.md with new entries.
+    groups: [["edit", { fileRegex: "\\.md$" }], read]
+
+  - slug: critical-issue-response-t1
+    name: Critical Issue Response (T1)
+    description: Triage and resolve Severity-1/2 incidents with full authority.
+    customInstructions: |-
+      - Create .0kid/implementation_notes/incident-<timestamp>.md with timeline.
+      - Apply immediate containment (feature flags, rollbacks, circuit breakers).
+      - Delegate implementation fixes via <new_task> to appropriate tier agents.
+      - Verify resolution and update incident log in .0kid/kid_log.md.
+    groups: [read, edit, command]
+
+  - slug: integration-auditor-t2
+    name: Integration Auditor (T2)
+    description: Comprehensive integration analysis across component boundaries.
+    customInstructions: |-
+      - Audit target NodeID plus all upstream callers and downstream dependencies.
+      - Rate integration health: Exemplary/Acceptable/Concern/Unacceptable.
+      - Generate .0kid/qa_reports/integration_audit_<NodeID>_<timestamp>.md with action items.
+    groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: install-and-reconcile-t2
+    name: Install and Reconcile (T2)
+    description: Environment setup and dependency reconciliation for project onboarding.
+    customInstructions: |-
+      - Verify all dependencies install cleanly on fresh environment.
+      - Reconcile package.json/requirements.txt with actual usage patterns.
+      - Generate .0kid/environment_setup.md with verified installation steps.
+    groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: midproject-feature-add-t2
+    name: Mid-Project Feature Add (T2)
+    description: Add features to existing projects with minimal disruption.
+    customInstructions: |-
+      - Analyze existing architecture for insertion points.
+      - Implement feature with backwards compatibility preservation.
+      - Update specs and tests; ensure no regression in existing functionality.
+    groups: [read, edit, command]
+
+  - slug: onboarding-audit-t2
+    name: Onboarding Audit (T2)
+    description: Verify project readiness for new team member onboarding.
+    customInstructions: |-
+      - Check all .0kid/ docs are complete (no placeholders).
+      - Verify build/test/run commands work on fresh environment.
+      - Generate .0kid/qa_reports/onboarding_audit.md with Go/No-Go assessment.
+    groups: [read, command, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: preflight-analysis-t2
+    name: Preflight Analysis (T2)
+    description: Risk assessment and impact analysis before implementation.
+    customInstructions: |-
+      - Analyze proposed changes for risk vectors and blast radius.
+      - Generate .0kid/qa_reports/preflight_<NodeID>.md with risk matrix.
+      - Recommend mitigation strategies and rollback procedures.
+    groups: [read, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: project-generator-t1
+    name: Project Generator (T1)
+    description: Bootstrap new projects with complete .0kid/ workspace structure.
+    customInstructions: |-
+      - Generate full .0kid/ directory structure with methodology compliance.
+      - Create initial architecture diagram, specs, and tracker entries.
+      - Set up CI/CD workflows and development environment configuration.
+    groups: [read, edit, command]
+
+  - slug: refactor-node-t2
+    name: Refactor Node (T2)
+    description: Internal refactoring without behavior change for specific NodeIDs.
+    customInstructions: |-
+      - Mark target NodeID as WIP in .0kid/kid_tracker.md.
+      - Apply incremental refactoring with continuous test validation.
+      - Update spec's internal "Approach" section; restore status to VERIFIED.
+    groups: [read, edit, command]
+
+  - slug: retrofit-project-t2
+    name: Retrofit Project (T2)
+    description: Add Kid methodology structure to existing codebases.
+    customInstructions: |-
+      - Reverse-engineer architecture and create .0kid/kid_architecture.md.
+      - Generate specs for discovered NodeIDs; populate tracker with current state.
+      - Complete .0kid/environment_context.md with project-specific details.
+    groups: [read, edit, command]
+
+  - slug: work-session-starter-t3
+    name: Work Session Starter (T3)
+    description: Initialize focused work sessions with context gathering.
+    customInstructions: |-
+      - Review .0kid/kid_tracker.md for pending tasks and priorities.
+      - Gather relevant specs and implementation notes for session focus.
+      - Generate session summary in .0kid/work_sessions/<timestamp>.md.
+    groups: [read, ["edit", { fileRegex: "\\.md$" }]]
+
+  - slug: loop-propose-change-set-t2
+    name: Loop Propose Change Set (T2)
+    description: Propose minimal change sets with rationale for orchestrator loop.
+    customInstructions: |-
+      - Analyze requirements and propose minimal viable change set.
+      - List affected files, tests to update, and rollback procedures.
+      - Generate .0kid/proposals/changeset_<timestamp>.md with impact analysis.
+    groups: [read, ["edit", { fileRegex: "\\.md$" }]]
+
+  # ND Prompt Migration - Reuse/Alias Entries (no redefinition)
+  - slug: nodeer-spec-author
+    name: "Alias: kid-spec-author"
+    description: "Redirects to kid-spec-author for backward compatibility."
+    customInstructions: "This is an alias. Use kid-spec-author mode instead."
+    groups: [read]
+
+  - slug: developer-code-t2
+    name: "Alias: developer-code-t1"
+    description: "Redirects to developer-code-t1 for T2-level coding tasks."
+    customInstructions: "This is an alias. Use developer-code-t1 mode for T2 implementation work."
+    groups: [read]
+
+  - slug: nodeer-qa-gate
+    name: "Alias: kid-qa-gate"
+    description: "Redirects to kid-qa-gate for backward compatibility."
+    customInstructions: "This is an alias. Use kid-qa-gate mode instead."
+    groups: [read]
+
+  - slug: nodeer-release-manager
+    name: "Alias: kid-release-manager"
+    description: "Redirects to kid-release-manager for backward compatibility."
+    customInstructions: "This is an alias. Use kid-release-manager mode instead."
+    groups: [read]
 ---
